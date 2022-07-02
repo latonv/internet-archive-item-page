@@ -1,0 +1,145 @@
+{
+  "identifier": "MoonlightSonata_606",
+  "title": "Moonlight Sonata",
+  "uploader": "thalia@cantorion.org",
+  "description": "Piano Sonata No.14, Op.27/2 (Moonlight), LV Beethoven\nPublic domain sheet music.\nFrom http://cantorion.org",
+  "addedDate": "2009-02-12T22:43:08.000Z",
+  "creator": "LV Beethoven",
+  "mediaType": 0,
+  "subjectTags": [
+    "beethoven",
+    "sheet music",
+    "moonlight"
+  ],
+  "otherMetadata": [
+    [
+      "collection",
+      [
+        "folkscanomy_music",
+        "folkscanomy",
+        "additional_collections"
+      ]
+    ],
+    [
+      "identifier-access",
+      "http://www.archive.org/details/MoonlightSonata_606"
+    ],
+    [
+      "identifier-ark",
+      "ark:/13960/t04x5mc6h"
+    ],
+    [
+      "publicdate",
+      "2009-02-12 14:43:39"
+    ],
+    [
+      "filesxml",
+      "Mon Aug 24 18:16:05 UTC 2009"
+    ],
+    [
+      "ppi",
+      "300"
+    ],
+    [
+      "ocr",
+      "ABBYY FineReader 8.0"
+    ],
+    [
+      "repub_state",
+      "4"
+    ],
+    [
+      "curation",
+      "[curator]malware@archive.org[/curator][date]20140323214410[/date][comment]checked for malware[/comment]"
+    ],
+    [
+      "backup_location",
+      "ia903602_27"
+    ]
+  ],
+  "files": [
+    {
+      "name": "MoonlightSonata_606_archive.torrent",
+      "source": "metadata",
+      "format": "Archive BitTorrent",
+      "size": 3502
+    },
+    {
+      "name": "MoonlightSonata_606_files.xml",
+      "source": "original",
+      "format": "Metadata"
+    },
+    {
+      "name": "MoonlightSonata_606_meta.xml",
+      "source": "original",
+      "format": "Metadata",
+      "size": 1127
+    },
+    {
+      "name": "MoonlightSonata_606_reviews.xml",
+      "source": "original",
+      "format": "Metadata",
+      "size": 461
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano.djvu",
+      "source": "derivative",
+      "format": "DjVu",
+      "size": 856471
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano.gif",
+      "source": "derivative",
+      "format": "Animated GIF",
+      "size": 140448
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano.pdf",
+      "source": "original",
+      "format": "Image Container PDF",
+      "size": 1051448
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_abbyy.gz",
+      "source": "derivative",
+      "format": "Abbyy GZ",
+      "size": 109771
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.txt",
+      "source": "derivative",
+      "format": "DjVuTXT",
+      "size": 8211
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.xml",
+      "source": "derivative",
+      "format": "Djvu XML",
+      "size": 149971
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_jp2.zip",
+      "source": "derivative",
+      "format": "Single Page Processed JP2 ZIP",
+      "size": 2364382
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_scandata.xml",
+      "source": "derivative",
+      "format": "Scandata",
+      "size": 4407
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_text.pdf",
+      "source": "derivative",
+      "format": "Additional Text PDF",
+      "size": 942311
+    },
+    {
+      "name": "__ia_thumb.jpg",
+      "source": "original",
+      "format": "Item Tile",
+      "size": 18218
+    }
+  ]
+}

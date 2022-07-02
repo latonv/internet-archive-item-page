@@ -1,0 +1,198 @@
+{
+  "created": 1656883244,
+  "d1": "ia600205.us.archive.org",
+  "d2": "ia800205.us.archive.org",
+  "dir": "/27/items/MoonlightSonata_606",
+  "files": [
+    {
+      "name": "MoonlightSonata_606_archive.torrent",
+      "source": "metadata",
+      "btih": "9c059b54d1e07f6c9a80df4890f777d76d755940",
+      "mtime": "1531274222",
+      "size": "3502",
+      "md5": "02d030f2dbbf23db91d3fb8403ca5be2",
+      "crc32": "651b39a3",
+      "sha1": "ea9016fffab8e5b484a01d0dd89bf95f23e38330",
+      "format": "Archive BitTorrent"
+    },
+    {
+      "name": "MoonlightSonata_606_files.xml",
+      "source": "original",
+      "format": "Metadata",
+      "md5": "e166a360f3cff56abbb54d761b0baad7"
+    },
+    {
+      "name": "MoonlightSonata_606_meta.xml",
+      "source": "original",
+      "format": "Metadata",
+      "mtime": "1480234237",
+      "size": "1127",
+      "md5": "f1ca4c87513e8a873f8607d352a3ce9c",
+      "crc32": "e035aece",
+      "sha1": "06bc683bb18538cb37a8ac0c4f36a4d12bf95a30"
+    },
+    {
+      "name": "MoonlightSonata_606_reviews.xml",
+      "source": "original",
+      "format": "Metadata",
+      "mtime": "1366727468",
+      "size": "461",
+      "md5": "edceed20a1702445063a27ed96f769ca",
+      "crc32": "6ea29a1c",
+      "sha1": "db1c053aaf392ae0ebbb54040782fd7256c0e846"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano.djvu",
+      "source": "derivative",
+      "format": "DjVu",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.xml",
+      "md5": "e1454767773775b36f8d0b6204d627da",
+      "mtime": "1251554969",
+      "size": "856471",
+      "crc32": "da1cf918",
+      "sha1": "dc0b0f53ca38ea935e476f1f5849734c6237e099"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano.gif",
+      "source": "derivative",
+      "format": "Animated GIF",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano_jp2.zip",
+      "md5": "8e27d5abcd2dd169faeeaed94b380bdd",
+      "mtime": "1251554541",
+      "size": "140448",
+      "crc32": "8a534145",
+      "sha1": "8538c687a98cad359923023938d00427e41dccad"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano.pdf",
+      "source": "original",
+      "title": "Piano Sonata No.14, Op.27_2 (Moonlight) - Piano",
+      "format": "Image Container PDF",
+      "md5": "0152fef60fdbdf60c2c0d0e01fa31503",
+      "mtime": "1234449785",
+      "size": "1051448",
+      "crc32": "ca2c7cf4",
+      "sha1": "38536474b88037de00d741e9d47f84f3feabac37"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_abbyy.gz",
+      "source": "derivative",
+      "format": "Abbyy GZ",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano_jp2.zip",
+      "md5": "008a7b15f27eba025bee3b018e583a8a",
+      "mtime": "1251554899",
+      "size": "109771",
+      "crc32": "6a1c8aa8",
+      "sha1": "9543aded3ad0189b18fe39514012b20da2270cf5"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.txt",
+      "source": "derivative",
+      "format": "DjVuTXT",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano.djvu",
+      "md5": "e1219cba1c420850df7f9064348b4305",
+      "mtime": "1251555093",
+      "size": "8211",
+      "crc32": "11f3fec6",
+      "sha1": "2a5f68af170eb22c9f0f1b0f754641a5d1581aee"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.xml",
+      "source": "derivative",
+      "format": "Djvu XML",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano_abbyy.gz",
+      "md5": "6fd0cc5c8641d7f7f5c532ed47a07590",
+      "mtime": "1251554908",
+      "size": "149971",
+      "crc32": "643d7f63",
+      "sha1": "c624f7c44a5f1fcb4e6ca7aa1c6d754a920208d7"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_jp2.zip",
+      "source": "derivative",
+      "format": "Single Page Processed JP2 ZIP",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano.pdf",
+      "md5": "0b0aba43e607386fc71463d0aeba31d3",
+      "mtime": "1251554526",
+      "size": "2364382",
+      "crc32": "daed4268",
+      "sha1": "c3bdad26b02eedcd79d2deacd2022bb5425f21d4"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_scandata.xml",
+      "source": "derivative",
+      "format": "Scandata",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.xml",
+      "md5": "f547e73043f900e4f9c418b7cd1d63c2",
+      "mtime": "1251554970",
+      "size": "4407",
+      "crc32": "ce61f396",
+      "sha1": "332e7048589c9c3f410840e24111ac3fe458c357"
+    },
+    {
+      "name": "PianoSonataNo.14Op.27_2moonlight-Piano_text.pdf",
+      "source": "derivative",
+      "format": "Additional Text PDF",
+      "original": "PianoSonataNo.14Op.27_2moonlight-Piano_djvu.xml",
+      "md5": "36a932dd0ed3656c3201444b7967e8df",
+      "mtime": "1251555085",
+      "size": "942311",
+      "crc32": "157f0fd6",
+      "sha1": "61855890e6c253ec379e8fe6368894e17d557f0f"
+    },
+    {
+      "name": "__ia_thumb.jpg",
+      "source": "original",
+      "mtime": "1531274222",
+      "size": "18218",
+      "md5": "f083544abc12b8b365021bc7092c373a",
+      "crc32": "04b7ca56",
+      "sha1": "4c49fc605fcd8b4b354cdb0641b574a1b84329eb",
+      "format": "Item Tile",
+      "rotation": "0"
+    }
+  ],
+  "files_count": 14,
+  "item_last_updated": 1531274222,
+  "item_size": 5650728,
+  "metadata": {
+    "mediatype": "texts",
+    "collection": [
+      "folkscanomy_music",
+      "folkscanomy",
+      "additional_collections"
+    ],
+    "title": "Moonlight Sonata",
+    "description": "Piano Sonata No.14, Op.27/2 (Moonlight), LV Beethoven\nPublic domain sheet music.\nFrom http://cantorion.org",
+    "subject": "beethoven; sheet music; moonlight",
+    "creator": "LV Beethoven",
+    "identifier": "MoonlightSonata_606",
+    "uploader": "thalia@cantorion.org",
+    "addeddate": "2009-02-12 14:43:08",
+    "identifier-access": "http://www.archive.org/details/MoonlightSonata_606",
+    "identifier-ark": "ark:/13960/t04x5mc6h",
+    "publicdate": "2009-02-12 14:43:39",
+    "filesxml": "Mon Aug 24 18:16:05 UTC 2009",
+    "ppi": "300",
+    "ocr": "ABBYY FineReader 8.0",
+    "repub_state": "4",
+    "curation": "[curator]malware@archive.org[/curator][date]20140323214410[/date][comment]checked for malware[/comment]",
+    "backup_location": "ia903602_27"
+  },
+  "reviews": [
+    {
+      "reviewbody": "Beethoven FTW",
+      "reviewtitle": "Score!",
+      "reviewer": "Detective John Carter of Mars",
+      "reviewdate": "2009-02-15 00:51:11",
+      "createdate": "2009-02-15 00:49:55",
+      "stars": "4"
+    }
+  ],
+  "server": "ia600205.us.archive.org",
+  "uniq": 243417590,
+  "workable_servers": [
+    "ia600205.us.archive.org",
+    "ia800205.us.archive.org"
+  ]
+}
