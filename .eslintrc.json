@@ -1,17 +1,20 @@
 {
-  "root": true,
   "env": {
     "browser": true,
-    "es6": true
+    "es2021": true
   },
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
   ],
   "rules": {
     "indent": [
@@ -24,7 +27,7 @@
     ],
     "quotes": [
       "warn",
-      "double",
+      "single",
       {
         "avoidEscape": true,
         "allowTemplateLiterals": true
@@ -34,8 +37,11 @@
       "error",
       "always"
     ],
-    "no-unused-vars": [
+    "@typescript-eslint/no-unused-vars": [
       "warn"
+    ],
+    "no-unused-vars": [
+      "off"
     ],
     "no-console": [
       "off"
