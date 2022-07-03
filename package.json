@@ -8,7 +8,7 @@
     "metadata"
   ],
   "scripts": {
-    "test": "nyc mocha --require ts-node/register --reporter spec tests/*.test.ts",
+    "test": "nyc mocha --reporter spec tests/*.test.ts",
     "build": "webpack",
     "serve": "webpack serve --config webpack.config.js --open"
   },
