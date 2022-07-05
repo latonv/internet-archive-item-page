@@ -38,6 +38,7 @@ export class ItemSearchBar extends LitElement {
       box-sizing: border-box;
 
       background: var(--bg-color);
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif;
       font-size: var(--search-font-size);
     }
 
@@ -48,20 +49,29 @@ export class ItemSearchBar extends LitElement {
       height: calc(100% - 2px);
       aspect-ratio: 1;
 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
       padding: 0.75rem;
       border: 0;
       border-radius: 50%;
 
       background: var(--bg-color);
       font-size: var(--clear-font-size);
-      line-height: 110%;
 
       cursor: pointer;
+
+      transition: background-color 0.2s ease;
+    }
+
+    #clear-btn[hidden] {
+      display: none;
     }
 
     #clear-btn::before {
-      /* U+00D7 Multiplication sign */
-      content: "\u00D7"
+      /* U+2715 Multiplication X */
+      content: "\u2715"
     }
 
     #clear-btn:hover,
@@ -71,6 +81,7 @@ export class ItemSearchBar extends LitElement {
 
     #clear-btn:active {
       background: var(--accent-color-darker);
+      transition-duration: 0.05s;
     }
   `;
 
@@ -104,7 +115,7 @@ export class ItemSearchBar extends LitElement {
    * Handler to call whenever a new identifier is submitted to be looked up
    */
   private _handleSubmit() {
-    const searchQuery = this._searchBar.value;
+    const searchQuery = this._searchBar.value.trim();
 
     if (searchQuery.length > 0) {
       this.dispatchEvent(new CustomEvent('search', {
@@ -124,10 +135,16 @@ export class ItemSearchBar extends LitElement {
           type="text" 
           placeholder="Enter an archive.org item ID (e.g., InformationM)"
           value=${this.value}
+          autofocus
           @keyup=${this._handleInputKeyup}
           @input=${this._updateValue}
         >
-        <button id="clear-btn" ?hidden=${this.value.length === 0} @click=${this._clear}></button>
+        <button
+          id="clear-btn"
+          aria-label="Clear search bar"
+          ?hidden=${this.value.length === 0}
+          @click=${this._clear}>
+        </button>
       </div>
     `;
   }
