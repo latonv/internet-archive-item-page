@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { customElement, state } from 'lit/decorators.js';
 import { APIAdapter } from '../api/APIAdapter';
 import { ArchiveItem } from '../entities/ArchiveItem';
@@ -12,12 +13,16 @@ export class ItemViewer extends LitElement {
 
   static styles = css`
     header {
+      position: sticky;
+      top: 0;
+      height: 5rem;
+
       display: flex;
       flex-direction: column;
       justify-content: center;
-
-      height: 5rem;
-      background: skyblue;
+      
+      background: #87ceebe8;
+      backdrop-filter: blur(4px);
       text-align: center;
     }
 
@@ -70,7 +75,10 @@ export class ItemViewer extends LitElement {
         </div>
       </header>
       <main>
-        <item-details .item=${this._item}></item-details>
+        <item-details
+          .item=${this._item}
+          .embedURL=${ifDefined(this._api.itemEmbedURL(this._item?.identifier))}>
+        </item-details>
       </main>
     `;
   }
