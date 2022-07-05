@@ -70,7 +70,7 @@ export class ItemViewer extends LitElement {
         </div>
       </header>
       <main>
-        <pre>${this._item}</pre>
+        <item-details .item=${this._item}></item-details>
       </main>
     `;
   }
