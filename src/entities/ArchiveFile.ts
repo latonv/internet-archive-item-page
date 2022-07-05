@@ -2,7 +2,7 @@
 /**
  * Expected raw data shape of an item's file metadata
  */
-type ArchiveFileData = {
+export type ArchiveFileData = {
   name: string,
   source: FileSource,
   format: string,

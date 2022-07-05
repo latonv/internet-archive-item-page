@@ -1,12 +1,14 @@
-import { ArchiveFile } from './ArchiveFile';
+import { ArchiveFile, ArchiveFileData } from './ArchiveFile';
 import { getMediaType, MediaType } from './MediaType';
+import { Review, ReviewData } from './Review';
 
 /**
  * Raw data shape for archive.org items obtained from the Metadata API
  */
 export type ArchiveItemData = {
   metadata?: ArchiveItemMetadata,
-  files?: unknown[],
+  files?: ArchiveFileData[],
+  reviews?: ReviewData[],
   [key: string]: unknown
 };
 
@@ -120,7 +122,12 @@ export class ArchiveItem {
   /**
    * An array of files attached to this item.
    */
-  public readonly files: ArchiveFile[];
+  public readonly files: ArchiveFile[] = [];
+
+  /**
+   * An array of user reviews for this item.
+   */
+  public readonly reviews: Review[] = [];
 
   /**
    * All other metadata about this item not covered by ArchiveItem class fields,
@@ -207,12 +214,21 @@ export class ArchiveItem {
     }
 
     if ('files' in data && Array.isArray(data.files)) {
-      this.files = [];
       for (const fileData of data.files) {
         try {
           this.files.push(new ArchiveFile(fileData));
         } catch (err) {
-          console.error('Invalid file data:', fileData);
+          console.error('Invalid file data, skipping:', fileData);
+        }
+      }
+    }
+
+    if ('reviews' in data && Array.isArray(data.reviews)) {
+      for (const reviewData of data.reviews) {
+        try {
+          this.reviews.push(new Review(reviewData));
+        } catch (err) {
+          console.error('Invalid review data, skipping:', reviewData);
         }
       }
     }
