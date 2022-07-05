@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit';
-import { customElement, state, query } from 'lit/decorators.js';
+import { LitElement, html, css } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { APIAdapter } from '../api/APIAdapter';
 import { ArchiveItem } from '../entities/ArchiveItem';
 import { InternetArchiveAPIAdapter } from '../api/InternetArchiveAPIAdapter';
@@ -10,11 +10,24 @@ import { InternetArchiveAPIAdapter } from '../api/InternetArchiveAPIAdapter';
 @customElement('item-viewer')
 export class ItemViewer extends LitElement {
 
+  static styles = css`
+    header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      height: 5rem;
+      background: skyblue;
+      text-align: center;
+    }
+
+    #search-container {
+      height: 60%;
+    }
+  `;
+
   // TODO This doesn't actually belong here; move it out into a controller eventually
   private _api: APIAdapter = new InternetArchiveAPIAdapter();
-
-  @query('#item-id-input')
-  private _input: HTMLInputElement;
 
   @state()
   private _item: ArchiveItem;
@@ -29,38 +42,36 @@ export class ItemViewer extends LitElement {
   }
 
   /**
-   * Handler to call for keyup events on the input field
+   * Handler to call for search events from the search bar
    */
-  private _handleInputKeyup(evt: KeyboardEvent) {
-    if (evt.key === 'Enter') {
-      this._handleSubmit();
-    }
+  private _handleSearchEvent(evt: CustomEvent) {
+    this._search(evt.detail.query);
   }
 
   /**
    * Handler to call whenever a new identifier is submitted to be looked up
    */
-  private _handleSubmit() {
-    const identifier = this._input.value;
-
+  private _search(searchQuery: string) {
     // Don't bother repeating the last lookup if the identifier hasn't changed
-    if (identifier === this._item?.identifier) {
+    if (searchQuery === this._item?.identifier) {
       return;
     }
 
-    if (identifier.length > 0) {
-      this._changeItem(identifier);
+    if (searchQuery.length > 0) {
+      this._changeItem(searchQuery);
     }
   }
 
   protected override render() {
     return html`
-      <div>
-        <label for="item-id-input">Item Identifier: </label>
-        <input id="item-id-input" type="text" @keyup=${this._handleInputKeyup}>
-        <button @click=${this._handleSubmit}>Get metadata</button>
-      </div>
-      <pre>${this._item}</pre>
+      <header>
+        <div id="search-container">
+          <item-search-bar @search=${this._handleSearchEvent}></item-search-bar>
+        </div>
+      </header>
+      <main>
+        <pre>${this._item}</pre>
+      </main>
     `;
   }
 }
