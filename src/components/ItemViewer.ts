@@ -1,9 +1,10 @@
 import { LitElement, html, css } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { customElement, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 import { APIAdapter } from '../api/APIAdapter';
 import { ArchiveItem } from '../entities/ArchiveItem';
 import { InternetArchiveAPIAdapter } from '../api/InternetArchiveAPIAdapter';
+import { RelatedItem } from '../entities/RelatedItem';
 
 /**
  * High-level UI component to facilitate metadata lookup for a given identifier.
@@ -35,35 +36,47 @@ export class ItemViewer extends LitElement {
   private _api: APIAdapter = new InternetArchiveAPIAdapter();
 
   @state()
+  private _searchQuery: string;
+
+  @state()
   private _item: ArchiveItem;
+
+  // Note: non-reactive state, since (for now) these are only updated when the item changes
+  private _relatedItems: RelatedItem[];
 
   /**
    * Changes the item displayed by this component
    * @param identifier The new identifier to look up
    */
   private async _changeItem(identifier: string): Promise<void> {
+    this._searchQuery = identifier;
     const item = await this._api.fetchItemMetadata(identifier);
-    this._item = item;
+
+    // Invalid items won't have an identifier
+    if (item.identifier) {
+      this._relatedItems = await this._api.fetchRelatedItems(identifier);
+      this._item = item;
+    }
   }
 
   /**
    * Handler to call for search events from the search bar
    */
-  private _handleSearchEvent(evt: CustomEvent) {
-    this._search(evt.detail.query);
+  private _handleSearchEvent(evt: CustomEvent): void {
+    this._onSearch(evt.detail.query);
   }
 
   /**
    * Handler to call whenever a new identifier is submitted to be looked up
    */
-  private _search(searchQuery: string) {
+  private _onSearch(query: string): void {
     // Don't bother repeating the last lookup if the identifier hasn't changed
-    if (searchQuery === this._item?.identifier) {
+    if (query === this._searchQuery) {
       return;
     }
 
-    if (searchQuery.length > 0) {
-      this._changeItem(searchQuery);
+    if (query.length > 0) {
+      this._changeItem(query);
     }
   }
 
@@ -71,14 +84,23 @@ export class ItemViewer extends LitElement {
     return html`
       <header>
         <div id="search-container">
-          <item-search-bar @search=${this._handleSearchEvent}></item-search-bar>
+          <item-search-bar
+            .value=${this._searchQuery ?? ''}
+            @search=${this._handleSearchEvent}
+          >
+          </item-search-bar>
         </div>
       </header>
       <main>
-        <item-details
-          .item=${this._item}
-          .embedURL=${ifDefined(this._api.itemEmbedURL(this._item?.identifier))}>
-        </item-details>
+        ${when(this._item, () => html`
+          <item-details
+            .item=${this._item}
+            .relatedItems=${this._relatedItems}
+            .embedURL=${this._api.itemEmbedURL(this._searchQuery)}
+            @changeitem=${(evt: CustomEvent) => this._onSearch(evt.detail.identifier)}
+          >
+          </item-details>
+        `)}
       </main>
     `;
   }

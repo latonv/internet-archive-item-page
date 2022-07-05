@@ -1,9 +1,13 @@
 import { LitElement, html, css } from 'lit';
-import { when } from 'lit/directives/when.js';
 import { map } from 'lit/directives/map.js';
+import { repeat } from 'lit/directives/repeat.js';
+import { when } from 'lit/directives/when.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { ArchiveItem } from '../entities/ArchiveItem';
+import { RelatedItem } from '../entities/RelatedItem';
+
+declare const DOMPurify: { sanitize: (input: string) => string };
 
 /**
  * UI component to display details about an item in the Internet Archive
@@ -12,8 +16,17 @@ import { ArchiveItem } from '../entities/ArchiveItem';
 export class ItemDetails extends LitElement {
 
   static styles = css`
-    h2, h3 {
+    h1, h2 {
       margin: 0.25rem 0;
+    }
+
+    h3 {
+      margin: 0.125rem 0 0.5rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: inherit;
     }
 
     #outer-container {
@@ -22,6 +35,9 @@ export class ItemDetails extends LitElement {
       justify-content: center;
 
       padding-top: 1rem;
+
+      /* System UI font stack */
+      font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', 'Arial', sans-serif;
     }
 
     #left-container {
@@ -34,6 +50,8 @@ export class ItemDetails extends LitElement {
     #right-container {
       flex-basis: 30%;
       max-width: 720px;
+      
+      margin-left: 1.5rem;
     }
 
     #item-embed {
@@ -43,42 +61,101 @@ export class ItemDetails extends LitElement {
     #metadata-container {
       padding: 0 0.375rem;
       border: 1px solid #d8d8d8;
+    }
 
-      font-family: system-ui, sans-serif;
+    #title-container {
+      display: flex;
+      align-items: center;
     }
 
     #title {
       display: inline-block;
+      margin-right: 0.75rem;
     }
 
     .tags-container {
       display: inline;
       padding: 0;
-      margin-left: 0.75rem;
-      vertical-align: text-bottom;
     }
 
     .tag {
       display: inline-block;
       margin: 0 0.125rem;
-      padding: 4px;
+      padding: 0.25rem;
 
       background: #d8d8d8;
       font-size: 0.75rem;
     }
+
+    .related-item {
+      display: flex;
+      margin: 0.5rem 0;
+
+      background: #ffffff;
+      box-shadow: #d8d8d8 1px 1px 3px 1px;
+
+      cursor: pointer;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .related-item:hover {
+      background: #f8f8f8;
+      box-shadow: #d8d8d8 2px 2px 3px 1px;
+    }
+
+    .related-item img {
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .related-item-metadata {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+      padding-left: 0.375rem;
+    }
+
+    .related-item-title {
+      margin: 0.125rem 0;
+      font-weight: bold;
+    }
+
+    .related-item-id {
+      flex-grow: 1;
+      margin: 0.25rem 0;
+      color: darkgrey;
+      font-size: smaller;
+    }
   `;
+
+  @query('#item-embed')
+  private _embedIframe!: HTMLIFrameElement;
   
-  @property()
+  @property({ type: ArchiveItem })
   public item: ArchiveItem;
 
-  @property()
+  @property({ type: Array })
+  public relatedItems: RelatedItem[];
+
+  @property({ type: String })
   public embedURL: string;
 
-  protected override render() {
-    // I'm making the assumption that archive.org item descriptions have already been sanitized and are trustworthy.
-    // Realistically, they should probably still be sanitized before being included in the DOM, just to be safe.
+  private _onRelatedItemClick(identifier: string): void {
+    this.dispatchEvent(new CustomEvent('changeitem', {
+      detail: {
+        identifier
+      }
+    }));
+  }
 
-    /* eslint-disable indent */// (The default indent rules don't handle some parts of this html block well)
+  protected override render() {
+    // It's likely the case that archive.org item descriptions have already been sanitized and are trustworthy.
+    // But just in case, let's sanitize them before inclusion in the DOM, just to be safe.
+    const joinedDescription = [].concat(this.item?.description).join('<br>').replace(/\n/g, '<br>');
+    const descriptionBlock = unsafeHTML(DOMPurify.sanitize(joinedDescription));
+
+    /* eslint-disable indent */// (The default indent rules don't seem to handle html blocks well)
     return html`
       <div id="outer-container">
         <div id="left-container">
@@ -92,30 +169,56 @@ export class ItemDetails extends LitElement {
               webkitallowfullscreen="true"
               mozallowfullscreen="true"
               allowfullscreen
+              @load=${() => this._embedIframe.setAttribute('height', '' + this._embedIframe.getBoundingClientRect().width * 9 / 16)}
             >
           `)}
           <div id="metadata-container">
-            ${when(this.item.title,
-              () => html`<h2 id="title">${this.item.title}</h2>`, // If the item has a title, use it
-              () => html`<h2 id="title">${this.item.identifier}</h2>` // Otherwise, just use its identifier instead
+            <div id="title-container">
+              ${when(this.item?.title,
+                () => html`<h1 id="title">${this.item.title}</h1>`, // If the item has a title, use it
+                () => html`<h1 id="title">Untitled (${this.item?.identifier})</h1>` // Otherwise, show its identifier instead
+              )}
+              ${when(this.item?.subjectTags,
+                () => html`
+                  <ul class="tags-container">
+                    ${map(this.item.subjectTags, (tag) => html`<li class="tag">${tag}</li>`)}
+                  </ul>
+                `
+              )}
+            </div>
+            ${when(this.item?.creator, 
+              () => html`<h2>Created by: ${[].concat(this.item.creator).join(', ')}</h2>`
             )}
-            ${when(this.item.subjectTags,
-              () => html`
-                <ul class="tags-container">
-                  ${map(this.item.subjectTags, (tag) => html`<li class="tag">${tag}</li>`)}
-                </ul>
-              `
-            )}
-            ${when(this.item.creator, 
-              () => html`<h3>Created by: ${this.item.creator}</h3>`
-            )}
-            <p>
-              ${unsafeHTML([].concat(this.item.description).join('<br>').replace(/\n/g, '<br>'))}
-            </p>
+            <p>${descriptionBlock}</p>
           </div>
         </div>
         <div id="right-container">
-          Related items go here
+          <h3>Related items:</h3>
+          ${repeat(this.relatedItems,
+            (item) => item.identifier,
+            (item) => html`
+              <a href="#" @click=${() => this._onRelatedItemClick(item.identifier)}>
+                <div class="related-item">
+                  <img
+                    src="https://archive.org/services/img/${item.identifier}"
+                    width="180"
+                    height="135"
+                  >
+                  <div class="related-item-metadata">
+                    <p class="related-item-title">${item.title || 'Untitled'}</p>
+                    <p class="related-item-id">${item.identifier}</p>
+                    ${when(item.subjectTags,
+                      () => html`
+                        <ul class="tags-container">
+                          ${map(item.subjectTags, (tag) => html`<li class="tag">${tag}</li>`)}
+                        </ul>
+                      `
+                    )}
+                  </div>
+                </div>
+              </a>
+            `
+          )}
         </div>
       </div>
       <pre>${this.item}</pre>

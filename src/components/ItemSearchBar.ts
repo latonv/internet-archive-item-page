@@ -88,10 +88,10 @@ export class ItemSearchBar extends LitElement {
   @query('#search-bar')
   private _searchBar!: HTMLInputElement;
 
-  @property()
+  @property({ type: String })
   public value = '';
 
-  private _clear() {
+  private _clear(): void {
     this._searchBar.value = '';
     this._updateValue();
     this._searchBar.focus();
@@ -100,21 +100,21 @@ export class ItemSearchBar extends LitElement {
   /**
    * Handler to call for keyup events on the input field
    */
-  private _handleInputKeyup(evt: KeyboardEvent) {
+  private _handleInputKeyup(evt: KeyboardEvent): void {
     // keyCode is deprecated, but needed for compatibility with some older browsers
     if (evt.key === 'Enter' || evt.keyCode === 13) {
       this._handleSubmit();
     }
   }
 
-  private _updateValue() {
+  private _updateValue(): void {
     this.value = this._searchBar.value;
   }
 
   /**
    * Handler to call whenever a new identifier is submitted to be looked up
    */
-  private _handleSubmit() {
+  private _handleSubmit(): void {
     const searchQuery = this._searchBar.value.trim();
 
     if (searchQuery.length > 0) {
@@ -126,7 +126,6 @@ export class ItemSearchBar extends LitElement {
     }
   }
 
-  // @keyup=${this._handleInputKeyup}
   protected override render() {
     return html`
       <div id="container">
@@ -134,15 +133,15 @@ export class ItemSearchBar extends LitElement {
           id="search-bar"
           type="text" 
           placeholder="Enter an archive.org item ID (e.g., InformationM)"
-          value=${this.value}
           autofocus
+          .value=${this.value}
           @keyup=${this._handleInputKeyup}
           @input=${this._updateValue}
         >
         <button
           id="clear-btn"
           aria-label="Clear search bar"
-          ?hidden=${this.value.length === 0}
+          ?hidden=${this.value?.length == 0}
           @click=${this._clear}>
         </button>
       </div>
