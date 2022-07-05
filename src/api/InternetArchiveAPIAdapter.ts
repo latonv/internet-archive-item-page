@@ -27,14 +27,18 @@ export class InternetArchiveAPIAdapter implements APIAdapter {
   // 
   // 
 
-  
+  /**
+   * @see APIAdapter.fetchItemMetadata
+   */
   public async fetchItemMetadata(identifier: string): Promise<ArchiveItem> {
     const metadataJSON = await fetch(`https://archive.org/metadata/${encodeURIComponent(identifier)}`);
     const responseObj = await metadataJSON.json();
     return new ArchiveItem(responseObj);
   }
 
-  
+  /**
+   * @see APIAdapter.fetchRelatedItems
+   */
   public async fetchRelatedItems(identifier: string): Promise<RelatedItem[]> {
     const relatedItemsJSON = await fetch(`https://be-api.us.archive.org/mds/v1/get_related/all/${encodeURIComponent(identifier)}`);
     const responseObj: RelatedItemsData = await relatedItemsJSON.json();
@@ -57,13 +61,17 @@ export class InternetArchiveAPIAdapter implements APIAdapter {
     }
   }
 
-  
+  /**
+   * @see APIAdapter.itemImageURL
+   */
   public itemImageURL(identifier: string): string {
-    return `https://archive.org/services/img/${encodeURIComponent(identifier)}`;
+    return identifier ? `https://archive.org/services/img/${encodeURIComponent(identifier)}` : '';
   }
 
-  
+  /**
+   * @see APIAdapter.itemEmbedURL
+   */
   public itemEmbedURL(identifier: string): string {
-    return `https://archive.org/embed/${encodeURIComponent(identifier)}`;
+    return identifier ? `https://archive.org/embed/${encodeURIComponent(identifier)}` : '';
   }
 }

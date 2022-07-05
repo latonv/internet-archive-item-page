@@ -26,6 +26,7 @@ export interface APIAdapter {
 
   /**
    * Returns the URL for an image representing the item with the given identifier.
+   * If the given identifier is nullish or empty, an empty string is returned.
    * 
    * @param identifier The item identifier to construct an image URL for
    * @returns The image URL as a string
@@ -33,7 +34,8 @@ export interface APIAdapter {
   itemImageURL(identifier: string): string;
 
   /**
-   * Returns the URL for an item's embeddable content (video player, PDF reader, etc.)
+   * Returns the URL for an item's embeddable content (video player, PDF reader, etc.).
+   * If the given identifier is nullish or empty, an empty string is returned.
    * 
    * @param identifier The item identifier to construct an embed URL for
    * @returns The embed URL as a string
