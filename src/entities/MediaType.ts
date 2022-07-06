@@ -79,3 +79,36 @@ export function getMediaType(key: string): MediaType | null {
     return null;
   }
 }
+
+/**
+ * Returns an emoji loosely representing the given media type.
+ * 
+ * @param type The MediaType to get an emoji for
+ * @returns The corresponding emoji as a string, or an empty string if provided an invalid media type.
+ */
+export function getEmoji(type: MediaType): string {
+  switch (type) {
+  case MediaType.TEXTS:
+    return '📖';
+  case MediaType.ETREE:
+    return '🎸';
+  case MediaType.AUDIO:
+    return '🎧';
+  case MediaType.MOVIES:
+    return '🎞️';
+  case MediaType.SOFTWARE:
+    return '💿';
+  case MediaType.IMAGE:
+    return '🖼️';
+  case MediaType.DATA:
+    return '📊';
+  case MediaType.WEB:
+    return '🌐';
+  case MediaType.COLLECTION:
+    return '📂';
+  case MediaType.ACCOUNT:
+    return '👤';
+  default:
+    return '';
+  }
+}

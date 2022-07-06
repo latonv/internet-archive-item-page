@@ -20,6 +20,12 @@ export class ItemSearchBar extends LitElement {
       --bg-color: #ffffff;
       --accent-color: #e0e0e0;
       --accent-color-darker: #d0d0d0;
+
+      --go-btn-color: #dcdcdc;
+      --go-btn-color-hover: #d0d0d0;
+      --go-btn-color-pressed: #c8c8c8;
+
+      --system-font-stack: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', 'Arial', sans-serif;
     }
 
     #container {
@@ -27,6 +33,20 @@ export class ItemSearchBar extends LitElement {
       display: inline-block;
       height: 100%;
       width: var(--container-width);
+    }
+
+    #search-outer {
+      position: relative;
+      display: flex;
+      flex-grow: 1;
+      height: 100%;
+      box-shadow: grey 0px 1px 2px 0px;
+    }
+
+    #search-inner {
+      position: relative;
+      flex-grow: 1;
+      height: 100%;
     }
     
     #search-bar {
@@ -38,7 +58,7 @@ export class ItemSearchBar extends LitElement {
       box-sizing: border-box;
 
       background: var(--bg-color);
-      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif;
+      font-family: var(--system-font-stack);
       font-size: var(--search-font-size);
     }
 
@@ -47,7 +67,7 @@ export class ItemSearchBar extends LitElement {
       top: 1px;
       right: 1px;
       height: calc(100% - 2px);
-      aspect-ratio: 1;
+      aspect-ratio: 1; /* aspect-ratio is a fairly recent feature -- might be better to just hard-code a width for better browser support? */
 
       display: flex;
       justify-content: center;
@@ -82,6 +102,28 @@ export class ItemSearchBar extends LitElement {
     #clear-btn:active {
       background: var(--accent-color-darker);
       transition-duration: 0.05s;
+    }
+
+    #go-btn {
+      height: 100%;
+      padding: 0 1rem;
+      border: none;
+      border-left: 1px solid darkgrey;
+      border-radius: 0 4px 4px 0;
+
+      background: var(--go-btn-color);
+      font-size: 1rem;
+
+      cursor: pointer;
+    }
+
+    #go-btn:hover,
+    #go-btn:focus {
+      background: var(--go-btn-color-hover);
+    }
+
+    #go-btn:active {
+      background: var(--go-btn-color-pressed);
     }
   `;
 
@@ -129,21 +171,27 @@ export class ItemSearchBar extends LitElement {
   protected override render() {
     return html`
       <div id="container">
-        <input
-          id="search-bar"
-          type="text" 
-          placeholder="Enter an archive.org item ID (e.g., InformationM)"
-          autofocus
-          .value=${this.value}
-          @keyup=${this._handleInputKeyup}
-          @input=${this._updateValue}
-        >
-        <button
-          id="clear-btn"
-          aria-label="Clear search bar"
-          ?hidden=${this.value?.length == 0}
-          @click=${this._clear}>
-        </button>
+        <div id="search-outer">
+          <div id="search-inner">
+            <input
+              id="search-bar"
+              type="text" 
+              placeholder="Enter an archive.org item ID (e.g., InformationM)"
+              spellcheck="false"
+              autofocus
+              .value=${this.value}
+              @keyup=${this._handleInputKeyup}
+              @input=${this._updateValue}
+            >
+            <button
+              id="clear-btn"
+              aria-label="Clear search bar"
+              ?hidden=${this.value?.length == 0}
+              @click=${this._clear}>
+            </button>
+          </div>
+          <button id="go-btn" aria-label="Search" @click=${this._handleSubmit}>Go!</button>
+        </div>
       </div>
     `;
   }

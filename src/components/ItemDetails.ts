@@ -1,13 +1,10 @@
 import { LitElement, html, css } from 'lit';
-import { map } from 'lit/directives/map.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { customElement, property, query } from 'lit/decorators.js';
 import { ArchiveItem } from '../entities/ArchiveItem';
 import { RelatedItem } from '../entities/RelatedItem';
-
-declare const DOMPurify: { sanitize: (input: string) => string };
+import { map } from 'lit/directives/map.js';
 
 /**
  * UI component to display details about an item in the Internet Archive
@@ -16,17 +13,13 @@ declare const DOMPurify: { sanitize: (input: string) => string };
 export class ItemDetails extends LitElement {
 
   static styles = css`
-    h1, h2 {
-      margin: 0.25rem 0;
+    :host {
+      /* System UI font stack */
+      --system-font-stack: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', 'Arial', sans-serif;
     }
 
     h3 {
       margin: 0.125rem 0 0.5rem;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: inherit;
     }
 
     #outer-container {
@@ -34,24 +27,34 @@ export class ItemDetails extends LitElement {
       flex-direction: row;
       justify-content: center;
 
-      padding-top: 1rem;
+      padding: 1rem 5%;
 
-      /* System UI font stack */
-      font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', 'Arial', sans-serif;
+      font-family: var(--system-font-stack);
     }
 
     #left-container {
       display: flex;
       flex-direction: column;
-      flex-basis: 60%;
-      max-width: 1440px;
+      flex-basis: calc(100% * 2 / 3);
+      max-width: 1280px;
     }
 
     #right-container {
-      flex-basis: 30%;
-      max-width: 720px;
+      flex-basis: calc(100% / 3);
+      max-width: 640px;
       
       margin-left: 1.5rem;
+    }
+
+    @media (max-width: 1200px) {
+      #outer-container {
+        flex-direction: column;
+      }
+
+      #left-container,
+      #right-container {
+        flex-basis: unset;
+      }
     }
 
     #item-embed {
@@ -59,73 +62,14 @@ export class ItemDetails extends LitElement {
     }
 
     #metadata-container {
+      margin-bottom: 1rem;
       padding: 0 0.375rem;
       border: 1px solid #d8d8d8;
     }
 
-    #title-container {
-      display: flex;
-      align-items: center;
-    }
-
-    #title {
-      display: inline-block;
-      margin-right: 0.75rem;
-    }
-
-    .tags-container {
-      display: inline;
+    #reviews {
+      margin: 0 0 1rem;
       padding: 0;
-    }
-
-    .tag {
-      display: inline-block;
-      margin: 0 0.125rem;
-      padding: 0.25rem;
-
-      background: #d8d8d8;
-      font-size: 0.75rem;
-    }
-
-    .related-item {
-      display: flex;
-      margin: 0.5rem 0;
-
-      background: #ffffff;
-      box-shadow: #d8d8d8 1px 1px 3px 1px;
-
-      cursor: pointer;
-      transition: background-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .related-item:hover {
-      background: #f8f8f8;
-      box-shadow: #d8d8d8 2px 2px 3px 1px;
-    }
-
-    .related-item img {
-      object-fit: cover;
-      object-position: top;
-    }
-
-    .related-item-metadata {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-
-      padding-left: 0.375rem;
-    }
-
-    .related-item-title {
-      margin: 0.125rem 0;
-      font-weight: bold;
-    }
-
-    .related-item-id {
-      flex-grow: 1;
-      margin: 0.25rem 0;
-      color: darkgrey;
-      font-size: smaller;
     }
   `;
 
@@ -141,20 +85,16 @@ export class ItemDetails extends LitElement {
   @property({ type: String })
   public embedURL: string;
 
-  private _onRelatedItemClick(identifier: string): void {
-    this.dispatchEvent(new CustomEvent('changeitem', {
-      detail: {
-        identifier
-      }
-    }));
+  /**
+   * Handle clicks on related items by re-dispatching the event up a level
+   */
+  private _onRelatedItemClick(evt: CustomEvent): void {
+    evt.stopPropagation();
+    this.dispatchEvent(new CustomEvent(evt.type, { detail: evt.detail }));
   }
 
-  protected override render() {
-    // It's likely the case that archive.org item descriptions have already been sanitized and are trustworthy.
-    // But just in case, let's sanitize them before inclusion in the DOM, just to be safe.
-    const joinedDescription = [].concat(this.item?.description).join('<br>').replace(/\n/g, '<br>');
-    const descriptionBlock = unsafeHTML(DOMPurify.sanitize(joinedDescription));
 
+  protected override render() {
     /* eslint-disable indent */// (The default indent rules don't seem to handle html blocks well)
     return html`
       <div id="outer-container">
@@ -172,56 +112,21 @@ export class ItemDetails extends LitElement {
               @load=${() => this._embedIframe.setAttribute('height', '' + this._embedIframe.getBoundingClientRect().width * 9 / 16)}
             >
           `)}
-          <div id="metadata-container">
-            <div id="title-container">
-              ${when(this.item?.title,
-                () => html`<h1 id="title">${this.item.title}</h1>`, // If the item has a title, use it
-                () => html`<h1 id="title">Untitled (${this.item?.identifier})</h1>` // Otherwise, show its identifier instead
-              )}
-              ${when(this.item?.subjectTags,
-                () => html`
-                  <ul class="tags-container">
-                    ${map(this.item.subjectTags, (tag) => html`<li class="tag">${tag}</li>`)}
-                  </ul>
-                `
-              )}
-            </div>
-            ${when(this.item?.creator, 
-              () => html`<h2>Created by: ${[].concat(this.item.creator).join(', ')}</h2>`
-            )}
-            <p>${descriptionBlock}</p>
+          <item-metadata-card id="metadata-container" .item=${this.item}></item-metadata-card>
+          <h3>Reviews:</h3>
+          <div id="reviews">
+            ${map(this.item?.reviews, (review) => html`<review-card .review=${review}></review-card>`)}
           </div>
+          <pre>${this.item}</pre>
         </div>
         <div id="right-container">
           <h3>Related items:</h3>
-          ${repeat(this.relatedItems,
-            (item) => item.identifier,
-            (item) => html`
-              <a href="#" @click=${() => this._onRelatedItemClick(item.identifier)}>
-                <div class="related-item">
-                  <img
-                    src="https://archive.org/services/img/${item.identifier}"
-                    width="180"
-                    height="135"
-                  >
-                  <div class="related-item-metadata">
-                    <p class="related-item-title">${item.title || 'Untitled'}</p>
-                    <p class="related-item-id">${item.identifier}</p>
-                    ${when(item.subjectTags,
-                      () => html`
-                        <ul class="tags-container">
-                          ${map(item.subjectTags, (tag) => html`<li class="tag">${tag}</li>`)}
-                        </ul>
-                      `
-                    )}
-                  </div>
-                </div>
-              </a>
-            `
+          ${repeat(this.relatedItems, // Related items could conceivably be reordered according to popularity, relevance, etc. So using repeat instead of map.
+            (relItem) => relItem.identifier,
+            (relItem) => html`<related-item-card .item=${relItem} @changeitem=${this._onRelatedItemClick}></related-item-card>`
           )}
         </div>
       </div>
-      <pre>${this.item}</pre>
     `;
     /* eslint-enable indent */
   }
