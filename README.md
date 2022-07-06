@@ -2,6 +2,8 @@
 
 > A small web application for exploring metadata about items in the Internet Archive.
 
+Live demo: https://latonv.com/projects/internet-archive-viewer
+
 ## Building
 
 To run the application locally, clone this repo and then download the dependencies with `npm i`.
