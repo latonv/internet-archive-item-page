@@ -113,11 +113,12 @@ export class ItemDetails extends LitElement {
             >
           `)}
           <item-metadata-card id="metadata-container" .item=${this.item}></item-metadata-card>
-          <h3>Reviews:</h3>
-          <div id="reviews">
-            ${map(this.item?.reviews, (review) => html`<review-card .review=${review}></review-card>`)}
-          </div>
-          <pre>${this.item}</pre>
+          ${when(this.item?.reviews?.length > 0, () => html`
+            <h3>Reviews:</h3>
+            <div id="reviews">
+              ${map(this.item?.reviews, (review) => html`<review-card .review=${review}></review-card>`)}
+            </div>
+          `)}
         </div>
         <div id="right-container">
           <h3>Related items:</h3>
