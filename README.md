@@ -12,7 +12,7 @@ Once you have those, you can spin up a local dev server by running this command 
 npm run serve
 ```
 
-This should automatically open the application in a new browser tab. The application runs at https://localhost:8080 and will watch for changes to the source files and reload as needed.
+This should automatically open the application in a new browser tab. The application runs at http://localhost:8080 and will watch for changes to the source files and reload as needed.
 
 The js bundle can also be built on its own without running the dev server, with the command:
 
